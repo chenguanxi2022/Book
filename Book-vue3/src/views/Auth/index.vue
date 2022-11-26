@@ -42,7 +42,11 @@
         <a-tab-pane key="2" tab="注册">
           <!-- 用户名 -->
           <div class="auth-form-item">
-            <a-input size="large" placeholder="用户名">
+            <a-input
+              size="large"
+              placeholder="用户名"
+              v-model:value="regForm.account"
+            >
               <template #prefix>
                 <github-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
@@ -50,7 +54,11 @@
           </div>
           <!-- 密码 -->
           <div class="auth-form-item">
-            <a-input size="large" placeholder="密码">
+            <a-input
+              size="large"
+              placeholder="密码"
+              v-model:value="regForm.password"
+            >
               <template #prefix>
                 <lock-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
@@ -66,7 +74,13 @@
           </div>
           <!-- Button -->
           <div class="auth-form-item">
-            <a-button size="large" class="button" type="primary">注册</a-button>
+            <a-button
+              size="large"
+              class="button"
+              type="primary"
+              @click="register"
+              >注册</a-button
+            >
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -80,6 +94,15 @@ import {
   LockOutlined,
   MailOutlined,
 } from "@ant-design/icons-vue";
+import { auth } from "../../service";
+// eslint-disable-next-line no-undef
+const regForm = reactive({
+  account: "",
+  password: "",
+});
+const register = () => {
+  auth.register(regForm.account, regForm.password);
+};
 </script>
 
 <style scoped lang="scss">

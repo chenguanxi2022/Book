@@ -8,10 +8,12 @@ import { AntDesignVueResolver } from "unplugin-vue-components/resolvers";
 export default defineConfig({
   plugins: [
     vue(),
+    // Vue 自动导入
     AutoImport({
       imports: ["vue"],
       dts: "src/auto-import.d.ts",
     }),
+    // AntDesignVue 自动引入
     Components({
       resolvers: [AntDesignVueResolver()],
     }),
