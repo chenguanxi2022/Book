@@ -14,6 +14,7 @@ connect().then(() => {
 
   // router 前使用 koaBody()
   app.use(koaBody())
+  
   registerRouter(app)
 
   app.listen(3000,() => {

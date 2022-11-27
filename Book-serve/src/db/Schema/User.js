@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const { getMeta } = require('../utils')
+const { getMeta } = require('../../utils')
 
 const UserSchema = mongoose.Schema({
   account:String,

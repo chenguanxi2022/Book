@@ -17,7 +17,11 @@
         <a-tab-pane key="1" tab="登陆">
           <!-- 用户名 -->
           <div class="auth-form-item">
-            <a-input size="large" placeholder="用户名">
+            <a-input
+              size="large"
+              placeholder="用户名"
+              v-model:value="logForm.account"
+            >
               <template #prefix>
                 <github-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
@@ -25,7 +29,12 @@
           </div>
           <!-- 密码 -->
           <div class="auth-form-item">
-            <a-input size="large" placeholder="密码">
+            <a-input
+              size="large"
+              placeholder="密码"
+              v-model:value="logForm.password"
+              type="password"
+            >
               <template #prefix>
                 <lock-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
@@ -35,7 +44,9 @@
           <a href="javascript:;"><div class="auth-form-item">忘记密码</div></a>
           <!-- Button -->
           <div class="auth-form-item">
-            <a-button size="large" class="button" type="primary">登陆</a-button>
+            <a-button size="large" class="button" type="primary" @click="login"
+              >登陆</a-button
+            >
           </div>
         </a-tab-pane>
         <!-- 注册 -->
@@ -58,6 +69,7 @@
               size="large"
               placeholder="密码"
               v-model:value="regForm.password"
+              type="password"
             >
               <template #prefix>
                 <lock-outlined :style="{ fontSize: '16px', color: '#08c' }" />
@@ -94,14 +106,63 @@ import {
   LockOutlined,
   MailOutlined,
 } from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
 import { auth } from "../../service";
+import { result } from "../../utils";
 // eslint-disable-next-line no-undef
 const regForm = reactive({
   account: "",
   password: "",
 });
-const register = () => {
-  auth.register(regForm.account, regForm.password);
+// register
+const register = async () => {
+  if (regForm.account === "") {
+    message.warn("用户名不可为空");
+    // 记住一定要 return 掉，不然还会走下面的逻辑
+    return;
+  }
+  if (regForm.password === "") {
+    message.warn("密码不可为空");
+    return;
+  }
+  // 获取响应数据
+  const res = await auth.register(regForm.account, regForm.password);
+  result(res).success((data) => {
+    message.success(data.msg);
+  });
+  // 判断 code
+  // if (data.code) {
+  //   message.success(data.msg);
+  // } else {
+  //   message.error(data.msg);
+  // }
+};
+// eslint-disable-next-line no-undef
+const logForm = reactive({
+  account: "",
+  password: "",
+});
+// login
+const login = async () => {
+  if (logForm.account === "") {
+    message.warn("用户名不可为空");
+    // 记住一定要 return 掉，不然还会走下面的逻辑
+    return;
+  }
+  if (logForm.password === "") {
+    message.warn("密码不可为空");
+    return;
+  }
+  const res = await auth.login(logForm.account, logForm.password);
+  result(res).success((data) => {
+    message.success(data.msg);
+  });
+  // 判断 code
+  // if (data.code) {
+  //   message.success(data.msg);
+  // } else {
+  //   message.error(data.msg);
+  // }
 };
 </script>
 
