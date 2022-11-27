@@ -1,5 +1,16 @@
 import { message } from "ant-design-vue";
 
+import { createApp } from "vue";
+import App from "./App.vue";
+
+// 引入 spaceBetween 组件
+import spaceBetween from '../components/SpaceBetween/index.vue'
+
+// 全局组件注册
+const app = createApp(App)
+app.component('spaceBetween', spaceBetween);
+
+// result
 export const result = (response, authShowErrorMsg = true) => {
   const { data } = response;
 

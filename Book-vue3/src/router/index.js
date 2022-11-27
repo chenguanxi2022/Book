@@ -18,7 +18,7 @@ const router = createRouter({
           name: "Book",
           component: () => import("../views/Book/index.vue"),
         },
-      ]
+      ],
     },
   ],
 });

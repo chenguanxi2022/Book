@@ -3,7 +3,10 @@
     <!-- 头部 -->
     <div class="app-header">
       <div class="left">
-        <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fu.candou.com%2F2015%2F0831%2F1441006447471.png%3FimageView2%2F2%2Fw%2F388%2Fh%2F416&refer=http%3A%2F%2Fu.candou.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1672031780&t=cb15db1afe50157d22a7f5d59dd2f9be" alt="">
+        <img
+          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fu.candou.com%2F2015%2F0831%2F1441006447471.png%3FimageView2%2F2%2Fw%2F388%2Fh%2F416&refer=http%3A%2F%2Fu.candou.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1672031780&t=cb15db1afe50157d22a7f5d59dd2f9be"
+          alt=""
+        />
         <div class="title">图书管理系统</div>
       </div>
       <div class="right">
@@ -27,7 +30,7 @@
 </template>
 
 <script setup>
-import appNav from '../Nav/index.vue';
+import appNav from "../Nav/index.vue";
 </script>
 
 <style scoped lang="scss">
@@ -63,7 +66,6 @@ import appNav from '../Nav/index.vue';
       display: flex;
       align-items: center;
       .hello-msg {
-        
       }
       .logout {
         width: 80px;
@@ -78,9 +80,9 @@ import appNav from '../Nav/index.vue';
       }
     }
     &-placeholder {
-    width: 100%;
-    height: 64px;
-  }
+      width: 100%;
+      height: 64px;
+    }
   }
   .app-content {
     display: flex;
