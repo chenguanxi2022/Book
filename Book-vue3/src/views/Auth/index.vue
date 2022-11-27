@@ -78,7 +78,11 @@
           </div>
           <!-- 邀请码 -->
           <div class="auth-form-item">
-            <a-input size="large" placeholder="邀请码">
+            <a-input
+              size="large"
+              placeholder="邀请码"
+              v-model:value="regForm.inviteCode"
+            >
               <template #prefix>
                 <mail-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
@@ -113,6 +117,7 @@ import { result } from "../../utils";
 const regForm = reactive({
   account: "",
   password: "",
+  inviteCode: "",
 });
 // register
 const register = async () => {
@@ -125,8 +130,12 @@ const register = async () => {
     message.warn("密码不可为空");
     return;
   }
+  if (regForm.inviteCode === "") {
+    message.warn("邀请码不可为空");
+    return;
+  }
   // 获取响应数据
-  const res = await auth.register(regForm.account, regForm.password);
+  const res = await auth.register(regForm.account, regForm.password, regForm.inviteCode);
   result(res).success((data) => {
     message.success(data.msg);
   });

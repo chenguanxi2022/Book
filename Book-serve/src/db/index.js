@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 require('./Schema/User')
+require('./Schema/InviteCode')
 
 const connect = () => {
   return new Promise((resolve,reject) => {

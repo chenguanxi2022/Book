@@ -7,16 +7,18 @@ const { getKey } = require('../../config')
 const { getBody } = require('../../utils')
 
 const User = mongoose.model('User')
+const InviteCode = mongoose.model('InviteCode')
 
 const Authrouter = new router({
   prefix:'/auth'
 })
 
+// 注册
 Authrouter.post('/register',async (ctx) => {
-  const { account, password } = getBody(ctx)
+  const { account, password, inviteCode } = getBody(ctx)
 
   // 判断是否为空
-  if(account === '' || password === '') {
+  if(account === '' || password === '' || inviteCode === '') {
     ctx.body = {
       code: 0,
       msg: '字段不能为空',
@@ -24,13 +26,28 @@ Authrouter.post('/register',async (ctx) => {
     }
     return
   }
-  // 去数据库中查找
-  const one = await User.findOne({
+  // 去数据库中查找 inviteCode
+  const codeFind = await InviteCode.findOne({
+    inviteCode
+  }).exec()
+  // 判断邀请码是否存在，以及 user 是否存在
+  if(!codeFind || codeFind.user) {
+    ctx.body = {
+      code: 0,
+      msg: '邀请码无效',
+      data: null
+    }
+    return;
+  }
+
+  // 去数据库中查找 account
+  const userFind = await User.findOne({
     account
   }).exec()
   // exec 使用正则表达式查找
 
-  if(one) {
+  // 存在该用户
+  if(userFind) {
     ctx.body = {
       code: 0,
       msg: '已存在该用户',
@@ -40,12 +57,21 @@ Authrouter.post('/register',async (ctx) => {
     return
   }
 
+  // mongoDB 的 model
   const user = new User({
     account,
     password
   })
 
+  // 数据同步 moogoDB
   const res = await user.save()
+
+  // 将邀请码与用户ID 绑定
+  codeFind.user = res._id
+  codeFind.meta.updatedAt = new Date().getTime()
+
+  // 同步数据
+  await codeFind.save()
 
   ctx.body = {
     code: 1,
@@ -54,6 +80,7 @@ Authrouter.post('/register',async (ctx) => {
   }
 })
 
+// 登陆
 Authrouter.post('/login',async (ctx) => {
   const { account,password } = getBody(ctx)
 
@@ -68,13 +95,13 @@ Authrouter.post('/login',async (ctx) => {
     return
   }
 
-  // 去数据库中查找
-  const one = await User.findOne({
+  // 去数据库中查找 account
+  const userFind = await User.findOne({
     account
   }).exec()
   
   // 如果不存在
-  if(!one) {
+  if(!userFind) {
     ctx.body = {
       code: 0,
       msg: '用户名或密码错误',
@@ -85,12 +112,12 @@ Authrouter.post('/login',async (ctx) => {
   
   // 保存 account + _id
   const user = {
-    account: one.account,
-    _id: one._id
+    account: userFind.account,
+    _id: userFind._id
   }
 
   // 存在且密码正确
-  if(one.password==password) {
+  if(userFind.password==password) {
     ctx.body = {
       code: 1,
       msg: '登陆成功',
