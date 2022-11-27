@@ -135,7 +135,11 @@ const register = async () => {
     return;
   }
   // 获取响应数据
-  const res = await auth.register(regForm.account, regForm.password, regForm.inviteCode);
+  const res = await auth.register(
+    regForm.account,
+    regForm.password,
+    regForm.inviteCode
+  );
   result(res).success((data) => {
     message.success(data.msg);
   });
