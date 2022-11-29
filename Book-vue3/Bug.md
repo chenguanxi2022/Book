@@ -18,3 +18,16 @@ v-model:isShow = isShow
 const emits = defineEmits(['update:isShow'])
 emits('update:isShow',false)
 ```
+
+## 3.Vue 使用 JSX 语法
+```js
+npm i -D @vitejs/plugin-vue-jsx
+```
+`vite.config.js`中写入
+```js
+import vueJsx from '@vitejs/plugin-vue-jsx';
+export default defineConfig({
+  plugins: [vueJsx(), ...],
+  ...
+})
+```

@@ -37,6 +37,16 @@
         <a-form-item label="分类">
           <a-input v-model:value="formState.classify" placeholder="分类" />
         </a-form-item>
+        <!-- 库存 -->
+        <a-form-item label="库存">
+          <a-input-number
+            id="inputNumber"
+            v-model:value="formState.count"
+            :min="0"
+            :max="9999"
+            placeholder="库存"
+          />
+        </a-form-item>
       </a-form>
     </a-modal>
   </div>
@@ -66,6 +76,7 @@ const defaultFormState = {
   author: "",
   date: "",
   classify: "",
+  count: "",
 };
 // eslint-disable-next-line no-undef
 const formState = reactive(clone(defaultFormState));

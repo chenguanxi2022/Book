@@ -13,3 +13,7 @@ export const list = (params) => {
 export const remove = (id) => {
   return axios.delete(`http://localhost:3000/book/${id}`);
 };
+
+export const updateCount = (data = {}) => {
+  return axios.post("http://localhost:3000/book/updateCount", data);
+};

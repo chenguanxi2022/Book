@@ -25,6 +25,12 @@
       <!-- table -->
       <a-table :columns="columns" :data-source="list" :pagination="false">
         <template #bodyCell="{ column, record }">
+          <!-- 库存 -->
+          <template v-if="column.dataIndex === 'count'">
+            <a href="javascript:;" @click="updateCount(1, record._id)">入库</a>
+            {{ record.count }}
+            <a href="javascript:;" @click="updateCount(0, record._id)">出库</a>
+          </template>
           <!-- 处理出版日期 -->
           <template v-if="column.dataIndex === 'date'">
             {{ formatTime(record.date) }}
@@ -56,7 +62,8 @@
 import addOne from "./AddOne/index.vue";
 import { book } from "../../service";
 import { formatTime, result } from "../../utils";
-import { message } from "ant-design-vue";
+import { message, Modal } from "ant-design-vue";
+import { createVNode } from "vue";
 // 表格列的配置描述
 const columns = [
   {
@@ -70,6 +77,10 @@ const columns = [
   {
     title: "作者",
     dataIndex: "author",
+  },
+  {
+    title: "库存",
+    dataIndex: "count",
   },
   {
     title: "出版日期",
@@ -150,6 +161,33 @@ const remove = async (id) => {
   result(res).success(({ msg }) => {
     message.success(msg);
     getList();
+  });
+};
+// 入库、进库
+const updateCount = (type, id) => {
+  let word = "增加";
+
+  if (!type) {
+    word = "减少";
+  }
+  Modal.confirm({
+    title: `要${word}多少库存`,
+    // eslint-disable-next-line no-undef
+    content: createVNode("input", {class: "book-input-count"}),
+    onOk: async () => {
+      const el = document.querySelector(".book-input-count");
+
+      const res = await book.updateCount({
+        id,
+        type,
+        num: el.value,
+      });
+
+      result(res).success(({ msg }) => {
+        message.success(msg);
+        getList();
+      });
+    },
   });
 };
 </script>

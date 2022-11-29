@@ -7,6 +7,11 @@ const router = new Router({
   prefix: '/book'
 })
 
+const BOOK_CONST = {
+  IN: 1,
+  OUT: 0
+}
+
 // add 添加
 router.post('/add',async (ctx) => {
   const {
@@ -15,6 +20,7 @@ router.post('/add',async (ctx) => {
     author,
     date,
     classify,
+    count
   } = getBody(ctx)
 
   // 同步 mongoDB
@@ -23,7 +29,8 @@ router.post('/add',async (ctx) => {
     price,
     author,
     date,
-    classify
+    classify,
+    count
   })
   const res = await book.save()
 
@@ -90,5 +97,52 @@ router.delete('/:id', async (ctx) => {
     code: 1
   }
 })
+
+// 入库、出库
+router.post('/updateCount',async (ctx) => {
+  const { id, type } = getBody(ctx)
+
+  let { num } = getBody(ctx);
+
+  num = Number(num);
+
+  const book = await Book.findOne({
+    _id: id,
+  });
+
+  // 没找到该书
+  if(!book) {
+    ctx.body = {
+      code: 0,
+      msg: '没有找到该书籍'
+    }
+    return;
+  }
+  // 找到了书
+  if(type === BOOK_CONST.IN) {
+    // 绝对值，取正数
+    num = Math.abs(num)
+  } else {
+    num = - Math.abs(num)
+  }
+
+  book.count = num + book.count
+
+  if(book.count < 0) {
+    ctx.body = {
+      code: 0,
+      msg: '出库失败'
+    }
+    return;
+  }
+
+  const res = await book.save();
+
+  ctx.body = {
+    code: 1,
+    data: res,
+    msg: '操作成功'
+  }
+});
 
 module.exports = router
