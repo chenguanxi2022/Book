@@ -51,10 +51,14 @@ const props = defineProps({
   isShow: Boolean,
 });
 // emits
-const emits = defineEmits(["update:isShow"]);
+const emits = defineEmits(["update:isShow", "getList"]);
 // 控制 isShow（v-model双向绑定）
 const close = () => {
   return emits("update:isShow", false);
+};
+// 刷新书籍信息
+const refresh = () => {
+  return emits("getList");
 };
 const defaultFormState = {
   name: "",
@@ -77,6 +81,8 @@ const submit = async () => {
     // 合并对象（清空数据）
     Object.assign(formState, defaultFormState);
     message.success(data.msg);
+    close();
+    refresh();
   });
 };
 </script>

@@ -37,7 +37,13 @@ router.post('/add',async (ctx) => {
 // list 渲染
 router.get('/list',async (ctx) => {
   // https://aa.cc.com/user?page=2&size=20&#fdsafds
-  const { page = 1, size = 10 } = ctx.query
+  const { page = 1, size = 10, keyWord = '' } = ctx.query
+  const query = {}
+  // 判断 keyWord 是否为空
+  if(keyWord) {
+    query.name = keyWord
+  }
+
   // 获取列表（+分页）
   /**
    * 2 20
@@ -46,7 +52,7 @@ router.get('/list',async (ctx) => {
    */
   const list = await Book
     // find；查询数据列
-    .find()
+    .find(query)
     // skip: 过滤掉前（page -1）页数据（忽略）
     .skip((page - 1) * size)
     // limit：限制查询 size 条
@@ -66,6 +72,22 @@ router.get('/list',async (ctx) => {
       page,
       size
     }
+  }
+})
+
+// delete 删除
+router.delete('/:id', async (ctx) => {
+  const { id } = ctx.params
+
+  // 删除该 id书籍
+  const delMsg = await Book.deleteOne({
+    _id: id
+  })
+
+  ctx.body = {
+    data: delMsg,
+    msg: '删除成功',
+    code: 1
   }
 })
 

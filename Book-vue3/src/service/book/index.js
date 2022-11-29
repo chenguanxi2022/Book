@@ -9,3 +9,7 @@ export const list = (params) => {
     params,
   });
 };
+
+export const remove = (id) => {
+  return axios.delete(`http://localhost:3000/book/${id}`);
+};
