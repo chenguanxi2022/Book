@@ -17,3 +17,7 @@ export const remove = (id) => {
 export const updateCount = (data = {}) => {
   return axios.post("http://localhost:3000/book/updateCount", data);
 };
+
+export const update = (data = {}) => {
+  return axios.post("http://localhost:3000/book/update", data);
+};

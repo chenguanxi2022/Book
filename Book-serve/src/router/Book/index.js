@@ -89,7 +89,7 @@ router.delete('/:id', async (ctx) => {
   // 删除该 id书籍
   const delMsg = await Book.deleteOne({
     _id: id
-  })
+  }).exec()
 
   ctx.body = {
     data: delMsg,
@@ -108,7 +108,7 @@ router.post('/updateCount',async (ctx) => {
 
   const book = await Book.findOne({
     _id: id,
-  });
+  }).exec()
 
   // 没找到该书
   if(!book) {
@@ -144,5 +144,52 @@ router.post('/updateCount',async (ctx) => {
     msg: '操作成功'
   }
 });
+
+// update 修改
+router.post('/update',async (ctx) => {
+  const {
+    id, 
+    // name,
+    // price, 
+    // author, 
+    // date, 
+    // classify
+    ...others
+    } = getBody(ctx)
+  const one = await Book.findOne({
+    _id: id
+  }).exec()
+  
+  // 没找到
+  if(!one) {
+    ctx.body = {
+      code: 0,
+      data: null,
+      msg: '没找到该书籍'
+    }
+    return;
+  }
+
+  // 找到
+  const newQuery = {}
+
+  // 对象 entries() 遍历，forEach(对数组进行操作)
+  Object.entries(others).forEach(([key,value]) => {
+    if(value) {
+      newQuery[key] = value
+    }
+  })
+
+  // 对象的合并，合并到 one
+  Object.assign(one, newQuery)
+
+  const res = await one.save()
+
+  ctx.body = {
+    data:res,
+    msg:'修改成功',
+    code:1
+  }
+})
 
 module.exports = router

@@ -18,7 +18,10 @@
           <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
         </div>
         <!-- button -->
-        <plus-circle-two-tone :style="{fontSize: '32px', color: '#52c41a', marginRight:'38px'}" @click="isShow = true"/>
+        <plus-circle-two-tone
+          :style="{ fontSize: '32px', color: '#52c41a', marginRight: '38px' }"
+          @click="isShow = true"
+        />
       </space-between>
       <!-- 分割线 -->
       <a-divider />
@@ -27,9 +30,19 @@
         <template #bodyCell="{ column, record }">
           <!-- 库存 -->
           <template v-if="column.dataIndex === 'count'">
-            <a href="javascript:;" @click="updateCount(1, record._id)">入库</a>
-            {{ record.count }}
-            <a href="javascript:;" @click="updateCount(0, record._id)">出库</a>
+            <a
+              href="javascript:;"
+              @click="updateCount(1, record._id)"
+              class="update"
+              >入库</a
+            >
+            <span class="count">{{ record.count }}</span>
+            <a
+              href="javascript:;"
+              @click="updateCount(0, record._id)"
+              class="update"
+              >出库</a
+            >
           </template>
           <!-- 处理出版日期 -->
           <template v-if="column.dataIndex === 'date'">
@@ -37,7 +50,23 @@
           </template>
           <!-- 操作 -->
           <template v-if="column.dataIndex === 'actions'">
-            <a-button type="primary" danger href="javascript:;" @click="remove(record._id)">删除</a-button>
+            <a-button
+              type="primary"
+              danger
+              href="javascript:;"
+              size="small"
+              @click="update(record)"
+              style="margin-right: 5px"
+              >编辑</a-button
+            >
+            <a-button
+              type="primary"
+              danger
+              href="javascript:;"
+              size="small"
+              @click="remove(record._id)"
+              >删除</a-button
+            >
           </template>
         </template>
       </a-table>
@@ -55,16 +84,22 @@
     </a-card>
     <!-- And One -->
     <add-one v-model:isShow="isShow" @getList="getList"></add-one>
+    <!-- Update -->
+    <Update
+      :curBook="curBook"
+      v-model:isShow="updateShow"
+      @getList="getList"
+    ></Update>
   </div>
 </template>
 
 <script setup>
 import addOne from "./AddOne/index.vue";
+import Update from "./Update/index.vue";
 import { book } from "../../service";
 import { formatTime, result } from "../../utils";
 import { message, Modal } from "ant-design-vue";
 import { PlusCircleTwoTone } from "@ant-design/icons-vue";
-import { createVNode } from "vue";
 // 表格列的配置描述
 const columns = [
   {
@@ -109,6 +144,8 @@ const columns = [
 // 弹窗显示与隐藏
 // eslint-disable-next-line no-undef
 const isShow = ref(false);
+// eslint-disable-next-line no-undef
+const updateShow = ref(false);
 // 控制子组件 show
 // const setShow = (bool) => {
 //   isShow.value = bool;
@@ -128,6 +165,9 @@ const curPage = ref(1);
 // 是否是搜索状态
 // eslint-disable-next-line no-undef
 const isSearch = ref(false);
+// 传递数据
+// eslint-disable-next-line no-undef
+const curBook = reactive({});
 // getList（获取书籍列表信息）
 const getList = async () => {
   const res = await book.list({
@@ -181,7 +221,7 @@ const updateCount = (type, id) => {
   Modal.confirm({
     title: `要${word}多少库存`,
     // eslint-disable-next-line no-undef
-    content: createVNode("input", {class: "book-input-count"}),
+    content: createVNode("input", { class: "book-input-count" }),
     onOk: async () => {
       const el = document.querySelector(".book-input-count");
 
@@ -198,6 +238,11 @@ const updateCount = (type, id) => {
     },
   });
 };
+// 修改数据
+const update = (record) => {
+  updateShow.value = true;
+  Object.assign(curBook, record);
+};
 </script>
 
 <style scoped lang="scss">
@@ -208,6 +253,20 @@ const updateCount = (type, id) => {
   a {
     width: 40px;
     margin-left: 16px;
+  }
+}
+.count {
+  color: #35ea15e7;
+  padding: 0 5px;
+  font-weight: 600;
+}
+.update {
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid yellow;
+  padding: 3px;
+  background-color: greenyellow;
+  &:hover {
+    background-color: yellow;
   }
 }
 </style>

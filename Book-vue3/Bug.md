@@ -31,3 +31,23 @@ export default defineConfig({
   ...
 })
 ```
+
+## 4.Vue3.2 `reactive`不需要 `.value`
+> 切记切记！！！
+```js
+// 响应式对象合并
+Object.assign(target, prev)
+```
+
+## 5.Vue3.2 `watch` 监听对象包对象，记得使用 `deep: true`
+> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+## 6.注意方法后括号要跟传的参数，千万不要瞎写
+
+## 7.时间戳的转换
+```js
+dayjs(Number(date))
+// 转换为 M 
+date.valueOf()
+// 转换为时间戳
+```
