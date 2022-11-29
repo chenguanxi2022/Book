@@ -16,16 +16,22 @@
       <!-- 分割线 -->
       <a-divider />
       <!-- table -->
-      <a-table :columns="columns" :data-source="list">
+      <a-table :columns="columns" :data-source="list" :pagination="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'date'">
             {{ formatTime(record.date) }}
           </template>
         </template>
       </a-table>
-      <!-- And One -->
-      <add-one v-model:isShow="isShow"></add-one>
+      <space-between style="margin-top: 24px">
+        <!-- 空盒子 -->
+        <div></div>
+        <!-- 分页器 -->
+        <a-pagination v-model:current="curPage" :total="total" :pageSize="10"  @change="setPage"/>
+      </space-between>
     </a-card>
+    <!-- And One -->
+    <add-one v-model:isShow="isShow"></add-one>
   </div>
 </template>
 
@@ -69,13 +75,33 @@ const isShow = ref(false);
 // 获取书籍列表
 // eslint-disable-next-line no-undef
 const list = ref([]);
+// 获取书籍总数
 // eslint-disable-next-line no-undef
-onMounted(async () => {
-  const res = await book.list();
-  result(res).success(({ data }) => {
-    list.value = data;
+const total = ref(0);
+// getList（获取书籍列表信息）
+const getList = async () => {
+  const res = await book.list({
+    page: curPage.value,
+    size: 10,
   });
+  result(res).success(({ data: { list: l, total: t } }) => {
+    // console.log(data)
+    list.value = l;
+    total.value = t;
+  });
+};
+// eslint-disable-next-line no-undef
+onMounted(() => {
+  getList();
 });
+// 分页器当前页数
+// eslint-disable-next-line no-undef
+const curPage = ref(1);
+// 页码改变，重新请求
+const setPage = (page) => {
+  curPage.value = page;
+  getList();
+};
 </script>
 
 <style scoped lang="scss"></style>

@@ -50,7 +50,7 @@ export const formatTime = (ts) => {
   const YYYY = date.getFullYear();
   // getMonth 从 0 开始，所以要 + 1
   const MM = date.getMonth() + 1;
-  const DD = date.getDay();
+  const DD = date.getDate();
 
   // const hh = date.getHours();
   // const mm = date.getMinutes();
