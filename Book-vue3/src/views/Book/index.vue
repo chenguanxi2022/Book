@@ -18,7 +18,7 @@
           <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
         </div>
         <!-- button -->
-        <a-button @click="isShow = true">添加一条</a-button>
+        <plus-circle-two-tone :style="{fontSize: '32px', color: '#52c41a', marginRight:'38px'}" @click="isShow = true"/>
       </space-between>
       <!-- 分割线 -->
       <a-divider />
@@ -37,7 +37,7 @@
           </template>
           <!-- 操作 -->
           <template v-if="column.dataIndex === 'actions'">
-            <a href="javascript:;" @click="remove(record._id)">删除</a>
+            <a-button type="primary" danger href="javascript:;" @click="remove(record._id)">删除</a-button>
           </template>
         </template>
       </a-table>
@@ -63,28 +63,34 @@ import addOne from "./AddOne/index.vue";
 import { book } from "../../service";
 import { formatTime, result } from "../../utils";
 import { message, Modal } from "ant-design-vue";
+import { PlusCircleTwoTone } from "@ant-design/icons-vue";
 import { createVNode } from "vue";
 // 表格列的配置描述
 const columns = [
   {
     title: "书名",
     dataIndex: "name",
+    align: "center",
   },
   {
     title: "价格",
     dataIndex: "price",
+    align: "center",
   },
   {
     title: "作者",
     dataIndex: "author",
+    align: "center",
   },
   {
     title: "库存",
     dataIndex: "count",
+    align: "center",
   },
   {
     title: "出版日期",
     dataIndex: "date",
+    align: "center",
     // slots: {
     //   customRender: "date",
     // },
@@ -92,10 +98,12 @@ const columns = [
   {
     title: "分类",
     dataIndex: "classify",
+    align: "center",
   },
   {
     title: "操作",
     dataIndex: "actions",
+    align: "center",
   },
 ];
 // 弹窗显示与隐藏
