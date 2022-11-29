@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 require('./Schema/User')
 require('./Schema/InviteCode')
+require('./Schema/Book')
 
 const connect = () => {
   return new Promise((resolve,reject) => {

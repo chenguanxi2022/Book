@@ -1,14 +1,14 @@
 import { message } from "ant-design-vue";
 
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "../App.vue";
 
 // 引入 spaceBetween 组件
-import spaceBetween from '../components/SpaceBetween/index.vue'
+import spaceBetween from "../components/SpaceBetween/index.vue";
 
 // 全局组件注册
-const app = createApp(App)
-app.component('spaceBetween', spaceBetween);
+const app = createApp(App);
+app.component("spaceBetween", spaceBetween);
 
 // result
 export const result = (response, authShowErrorMsg = true) => {
@@ -36,4 +36,25 @@ export const result = (response, authShowErrorMsg = true) => {
       return this;
     },
   };
+};
+
+// 深拷贝
+export const clone = (obj) => {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+// 时间戳
+export const formatTime = (ts) => {
+  const date = new Date(Number(ts));
+
+  const YYYY = date.getFullYear();
+  // getMonth 从 0 开始，所以要 + 1
+  const MM = date.getMonth() + 1;
+  const DD = date.getDay();
+
+  // const hh = date.getHours();
+  // const mm = date.getMinutes();
+  // const ss = date.getSeconds();
+
+  return `${YYYY}年${MM}月${DD}日`;
 };

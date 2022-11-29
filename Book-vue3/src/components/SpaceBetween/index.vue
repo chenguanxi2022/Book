@@ -1,7 +1,7 @@
 <template>
   <div class="space-between">
     <!-- 插槽 -->
-    <slot/>
+    <slot />
   </div>
 </template>
 
