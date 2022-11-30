@@ -37,21 +37,21 @@
           <template v-if="column.dataIndex === 'count'">
             <a
               href="javascript:;"
-              @click="updateCount(1, record._id)"
+              @click="updateCount('1', record._id)"
               class="update"
               >入库</a
             >
             <span class="count">{{ record.count }}</span>
             <a
               href="javascript:;"
-              @click="updateCount(0, record._id)"
+              @click="updateCount('0', record._id)"
               class="update"
               >出库</a
             >
           </template>
           <!-- 处理出版日期 -->
           <template v-if="column.dataIndex === 'date'">
-            {{ formatTime(record.date) }}
+            {{ formatTime2(record.date) }}
           </template>
           <!-- 操作 -->
           <template v-if="column.dataIndex === 'actions'">
@@ -107,7 +107,7 @@
 import addOne from "./AddOne/index.vue";
 import Update from "./Update/index.vue";
 import { book } from "../../service";
-import { formatTime, result } from "../../utils";
+import { formatTime2, result } from "../../utils";
 import { message, Modal } from "ant-design-vue";
 import { PlusCircleTwoTone } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
@@ -228,7 +228,7 @@ const remove = async (id) => {
 const updateCount = (type, id) => {
   let word = "增加";
 
-  if (!type) {
+  if (type === "0") {
     word = "减少";
   }
   Modal.confirm({

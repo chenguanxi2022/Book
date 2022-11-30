@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const { getMeta } = require('../../utils')
+const { getMeta,preSave } = require('../../utils')
 
 const BookSchema = mongoose.Schema({
   /**
@@ -14,5 +14,7 @@ const BookSchema = mongoose.Schema({
   count: Number,
   meta: getMeta()
 })
+
+BookSchema.pre("save", preSave)
 
 mongoose.model('Book',BookSchema)

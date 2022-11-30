@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const { getMeta } = require('../../utils')
+const { getMeta, preSave } = require('../../utils')
 
 const InviteCodeSchema = mongoose.Schema({
   // 邀请码
@@ -9,5 +9,7 @@ const InviteCodeSchema = mongoose.Schema({
   user: String,
   meta: getMeta()
 })
+
+InviteCodeSchema.pre("save", preSave)
 
 mongoose.model('InviteCode',InviteCodeSchema)

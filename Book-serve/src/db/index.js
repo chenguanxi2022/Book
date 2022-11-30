@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 require('./Schema/User')
 require('./Schema/InviteCode')
 require('./Schema/Book')
+require('./Schema/Log')
 
 const connect = () => {
   return new Promise((resolve,reject) => {

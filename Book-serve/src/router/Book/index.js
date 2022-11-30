@@ -1,15 +1,17 @@
 const Router = require('@koa/router')
 const mongoose = require('mongoose')
 const { getBody } = require('../../utils')
+
 const Book = mongoose.model('Book')
+const Log = mongoose.model('Log')
 
 const router = new Router({
   prefix: '/book'
 })
 
 const BOOK_CONST = {
-  IN: 1,
-  OUT: 0
+  IN: "1",
+  OUT: "0"
 }
 
 // add 添加
@@ -60,6 +62,8 @@ router.get('/list',async (ctx) => {
   const list = await Book
     // find；查询数据列
     .find(query)
+    // 倒叙
+    .sort({ _id: -1 })
     // skip: 过滤掉前（page -1）页数据（忽略）
     .skip((page - 1) * size)
     // limit：限制查询 size 条
@@ -137,6 +141,13 @@ router.post('/updateCount',async (ctx) => {
   }
 
   const res = await book.save();
+
+  // 入库、进库日志
+  const log = new Log({
+    num: Math.abs(num),
+    type
+  })
+  log.save()
 
   ctx.body = {
     code: 1,
