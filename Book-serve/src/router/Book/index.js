@@ -192,4 +192,27 @@ router.post('/update',async (ctx) => {
   }
 })
 
+// 详情展示
+router.get('/detail/:id', async(ctx) => {
+  const { id } = ctx.params
+
+  const one = await Book.findOne({
+    _id: id
+  })
+
+  if(!one) {
+    ctx.body = {
+      data: null,
+      code: 0,
+      msg: "查无此书"
+    }
+  }
+
+  ctx.body = {
+    code: 1,
+    msg: "查询成功",
+    data: one
+  }
+})
+
 module.exports = router

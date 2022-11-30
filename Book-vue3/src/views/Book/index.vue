@@ -26,7 +26,12 @@
       <!-- 分割线 -->
       <a-divider />
       <!-- table -->
-      <a-table :columns="columns" :data-source="list" :pagination="false">
+      <a-table
+        :columns="columns"
+        :data-source="list"
+        :pagination="false"
+        bordered
+      >
         <template #bodyCell="{ column, record }">
           <!-- 库存 -->
           <template v-if="column.dataIndex === 'count'">
@@ -51,8 +56,14 @@
           <!-- 操作 -->
           <template v-if="column.dataIndex === 'actions'">
             <a-button
+              href="javascript:;"
+              size="small"
+              @click="toDetail(record)"
+              style="margin-right: 5px"
+              >详情</a-button
+            >
+            <a-button
               type="primary"
-              danger
               href="javascript:;"
               size="small"
               @click="update(record)"
@@ -60,8 +71,7 @@
               >编辑</a-button
             >
             <a-button
-              type="primary"
-              danger
+              type="danger"
               href="javascript:;"
               size="small"
               @click="remove(record._id)"
@@ -100,6 +110,9 @@ import { book } from "../../service";
 import { formatTime, result } from "../../utils";
 import { message, Modal } from "ant-design-vue";
 import { PlusCircleTwoTone } from "@ant-design/icons-vue";
+import { useRouter } from "vue-router";
+import { createVNode } from "vue";
+const router = useRouter();
 // 表格列的配置描述
 const columns = [
   {
@@ -220,7 +233,6 @@ const updateCount = (type, id) => {
   }
   Modal.confirm({
     title: `要${word}多少库存`,
-    // eslint-disable-next-line no-undef
     content: createVNode("input", { class: "book-input-count" }),
     onOk: async () => {
       const el = document.querySelector(".book-input-count");
@@ -242,6 +254,10 @@ const updateCount = (type, id) => {
 const update = (record) => {
   updateShow.value = true;
   Object.assign(curBook, record);
+};
+// 书籍详情
+const toDetail = (record) => {
+  router.push(`/book/${record._id}`);
 };
 </script>
 

@@ -91,7 +91,7 @@ import appNav from "../Nav/index.vue";
       top: 64px;
       bottom: 0;
       width: 256px;
-      background-color: #efefef;
+      background-color: #ffffff;
     }
     .right {
       flex: 1;
