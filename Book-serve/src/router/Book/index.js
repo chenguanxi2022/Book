@@ -217,6 +217,7 @@ router.get('/detail/:id', async(ctx) => {
       code: 0,
       msg: "查无此书"
     }
+    return;
   }
 
   ctx.body = {

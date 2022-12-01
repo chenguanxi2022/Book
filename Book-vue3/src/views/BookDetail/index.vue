@@ -53,18 +53,31 @@
         <template #extra>
           <span>
             <a href="javascript:;" @click="logFilter('0')">
-              <check-circle-two-tone two-tone-color="#52c41a" v-if="logCurType === '0'" />
-              出库日志</a>
+              <check-circle-two-tone
+                two-tone-color="#52c41a"
+                v-if="logCurType === '0'"
+              />
+              出库日志</a
+            >
           </span>
           <span style="margin-left: 12px">
             <a href="javascript:;" @click="logFilter('1')">
-              <check-circle-two-tone two-tone-color="#52c41a" v-if="logCurType === '1'"/>
-              入库日志</a>
+              <check-circle-two-tone
+                two-tone-color="#52c41a"
+                v-if="logCurType === '1'"
+              />
+              入库日志</a
+            >
           </span>
         </template>
         <!-- table -->
         <div>
-          <a-table bordered :pagination="false" :columns="columns" :data-source="logInfo">
+          <a-table
+            bordered
+            :pagination="false"
+            :columns="columns"
+            :data-source="logInfo"
+          >
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'createdAt'">
                 {{ formatTime(record.meta.createdAt) }}

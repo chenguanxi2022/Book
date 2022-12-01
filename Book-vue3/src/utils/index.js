@@ -5,10 +5,12 @@ import App from "../App.vue";
 
 // 引入 spaceBetween 组件
 import spaceBetween from "../components/SpaceBetween/index.vue";
+import flexEnd from "../components/FlexEnd/index.vue";
 
 // 全局组件注册
 const app = createApp(App);
-app.component("spaceBetween", spaceBetween);
+app.component("space-between", spaceBetween);
+app.component("flex-end", flexEnd);
 
 // result
 export const result = (response, authShowErrorMsg = true) => {
@@ -59,7 +61,7 @@ export const formatTime2 = (ts) => {
   return `${YYYY}年${MM}月${DD}日`;
 };
 
-// 时间戳（年月日）
+// 时间戳（年月日时分秒）
 export const formatTime = (ts) => {
   const date = new Date(Number(ts));
 

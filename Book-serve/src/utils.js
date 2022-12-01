@@ -1,3 +1,4 @@
+// 记录创建、更新时间
 const getMeta = () => {
   return {
     createdAt: {
@@ -11,10 +12,12 @@ const getMeta = () => {
   }
 }
 
+// 解析 post 请求体
 const getBody = (ctx) => {
   return ctx.request.body || {}
 }
 
+// 入库前时间更新
 const preSave = function(next) {
   if(this.isNew) {
     const ts = Date.now();

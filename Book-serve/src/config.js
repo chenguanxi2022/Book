@@ -6,6 +6,10 @@ const getKey = () => {
   return 'guanxi-Book'
 }
 
+const getPwd = () => {
+  return '12345'
+}
+
 module.exports = {
-  getKey
+  getKey, getPwd
 }

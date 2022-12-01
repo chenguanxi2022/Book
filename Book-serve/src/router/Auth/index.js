@@ -24,7 +24,7 @@ Authrouter.post('/register',async (ctx) => {
       msg: '字段不能为空',
       data: null
     }
-    return
+    return;
   }
   // 去数据库中查找 inviteCode
   const codeFind = await InviteCode.findOne({
@@ -54,7 +54,7 @@ Authrouter.post('/register',async (ctx) => {
       data: null
     }
     // 记得 return 出去
-    return
+    return;
   }
 
   // mongoDB 的 model
@@ -92,7 +92,7 @@ Authrouter.post('/login',async (ctx) => {
       data: null
     }
     // return 出去
-    return
+    return;
   }
 
   // 去数据库中查找 account
@@ -107,7 +107,7 @@ Authrouter.post('/login',async (ctx) => {
       msg: '用户名或密码错误',
       data:null
     }
-    return
+    return;
   }
   
   // 保存 account + _id
