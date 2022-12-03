@@ -4,6 +4,7 @@ require('./Schema/User')
 require('./Schema/InviteCode')
 require('./Schema/Book')
 require('./Schema/Log')
+require('./Schema/Character')
 
 const connect = () => {
   return new Promise((resolve,reject) => {

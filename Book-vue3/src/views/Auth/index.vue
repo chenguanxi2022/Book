@@ -113,6 +113,15 @@ import {
 import { message } from "ant-design-vue";
 import { auth } from "../../service";
 import { result } from "../../utils";
+import { useUserStore } from "../../stores/user";
+import { getCharacterInfoById } from "../../character";
+import { useRouter } from "vue-router";
+import { setToken } from "../../utils/token";
+
+// router
+const router = useRouter();
+// stroe
+const store = useUserStore();
 // eslint-disable-next-line no-undef
 const regForm = reactive({
   account: "",
@@ -167,8 +176,15 @@ const login = async () => {
     return;
   }
   const res = await auth.login(logForm.account, logForm.password);
-  result(res).success((data) => {
-    message.success(data.msg);
+  result(res).success(({ msg, data: { data, token } }) => {
+    message.success(msg);
+    store.setUserInfo(data);
+    store.setUserCharacter(getCharacterInfoById(data.character));
+
+    // 保存在 localStorage 中
+    setToken(token);
+
+    router.replace("/book");
   });
   // 判断 code
   // if (data.code) {

@@ -20,6 +20,17 @@
             type="password"
           />
         </a-form-item>
+        <!-- 权限 -->
+        <a-form-item label="角色">
+          <a-select v-model:value="formState.character" style="width: 120px">
+            <a-select-option
+              v-for="item in characterInfo"
+              :key="item._id"
+              v-model:value="item._id"
+              >{{ item.title }}</a-select-option
+            >
+          </a-select>
+        </a-form-item>
       </a-form>
     </a-modal>
   </div>
@@ -29,6 +40,12 @@
 import { user } from "../../../service/";
 import { result, clone } from "../../../utils";
 import { message } from "ant-design-vue";
+import { useCharacterStore } from "../../../stores/character";
+
+// store
+const store = useCharacterStore();
+// characterInfo
+const { characterInfo } = store;
 // props
 const props = defineProps({
   isShow: Boolean,
@@ -46,15 +63,17 @@ const refresh = () => {
 const defaultFormState = {
   account: "",
   password: "",
+  character: "",
 };
 // eslint-disable-next-line no-undef
 const formState = reactive(clone(defaultFormState));
+formState.character = characterInfo[1]._id;
 // 确定
 const submit = async () => {
   // 深拷贝，复制一份 formState
   const form = clone(formState);
 
-  const res = await user.add(form.account, form.password);
+  const res = await user.add(form.account, form.password, form.character);
 
   // 判断响应
   result(res).success(({ msg }) => {

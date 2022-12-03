@@ -5,6 +5,7 @@ const { getMeta, preSave } = require('../../utils')
 const UserSchema = mongoose.Schema({
   account:String,
   password:String,
+  character:String,
   meta:getMeta()
 })
 

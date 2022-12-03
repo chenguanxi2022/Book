@@ -113,7 +113,8 @@ Authrouter.post('/login',async (ctx) => {
   // 保存 account + _id
   const user = {
     account: userFind.account,
-    _id: userFind._id
+    _id: userFind._id,
+    character: userFind.character
   }
 
   // 存在且密码正确

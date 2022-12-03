@@ -16,7 +16,9 @@
           <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
         </div>
         <!-- button -->
-        <a-button type="primary" @click="showAddModel = true">添加用户</a-button>
+        <a-button type="primary" @click="showAddModal = true"
+          >添加用户</a-button
+        >
       </space-between>
       <a-divider />
       <!-- table -->
@@ -32,9 +34,19 @@
             <template v-if="column.dataIndex === 'createdAt'">
               {{ formatTime(record.meta.createdAt) }}
             </template>
+            <!-- 角色 -->
+            <template v-if="column.dataIndex === 'character'">
+              <edit-two-tone two-tone-color="#eb2f96" @click="onEdit(record)" />
+              {{ getCharacterInfoById(record.character).title }}
+            </template>
             <!-- 操作 -->
             <template v-if="column.dataIndex === 'actions'">
-              <a-button type="primary" size="small" @click="resetPassword(record._id)">重置</a-button>
+              <a-button
+                type="primary"
+                size="small"
+                @click="resetPassword(record._id)"
+                >重置</a-button
+              >
               <a-button
                 type="danger"
                 size="small"
@@ -56,23 +68,51 @@
         ></a-pagination>
       </flex-end>
     </a-card>
-    <add-one v-model:isShow="showAddModel" @getList="getUserList"></add-one>
+    <add-one v-model:isShow="showAddModal" @getList="getUserList"></add-one>
+    <a-modal
+      :visible="showEditModal"
+      title="修改角色"
+      @ok="submit"
+      @cancel="close"
+    >
+      <a-select v-model:value="editForm.character" style="width: 120px">
+        <a-select-option
+          v-for="item in characterInfo"
+          :key="item._id"
+          v-model:value="item._id"
+          >{{ item.title }}</a-select-option
+        >
+      </a-select>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { message } from "ant-design-vue";
-import { onMounted, ref } from "vue";
-import { user } from "../../service";
+import { onMounted, ref, reactive } from "vue";
+import { character, user } from "../../service";
 import { result, formatTime } from "../../utils";
 import addOne from "./AddOne/index.vue";
+import { getCharacterInfoById } from "../../character";
+import { EditTwoTone } from "@ant-design/icons-vue";
+import { useCharacterStore } from "../../stores/character";
+
+// store
+const store = useCharacterStore();
+// characterInfo
+const { characterInfo } = store;
 
 const userList = ref([]);
 const userCurPage = ref(1);
 const userTotal = ref(0);
-const showAddModel = ref(false);
+const showAddModal = ref(false);
 const keyWord = ref("");
 const isSearch = ref(false);
+const showEditModal = ref(false);
+const editForm = reactive({
+  character: "",
+  current: {},
+});
 
 const columns = [
   {
@@ -83,6 +123,11 @@ const columns = [
   {
     title: "创建日期",
     dataIndex: "createdAt",
+    align: "center",
+  },
+  {
+    title: "角色",
+    dataIndex: "character",
     align: "center",
   },
   {
@@ -141,6 +186,26 @@ const goBack = () => {
   keyWord.value = "";
   isSearch.value = false;
   getUserList();
+};
+// 修改角色
+const onEdit = (record) => {
+  showEditModal.value = true;
+  editForm.character = record.character;
+  editForm.current = record;
+};
+// 关闭 showEditModal
+const close = () => {
+  showEditModal.value = false;
+};
+// 点击 showEditModal 的 OK
+const submit = async () => {
+  showEditModal.value = false;
+  const res = await character.edit(editForm.character, editForm.current._id);
+
+  result(res).success(({ msg }) => {
+    message.success(msg);
+    editForm.current.character = editForm.character;
+  });
 };
 </script>
 

@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 
 const { getBody } = require("../../utils")
 const { getPwd } = require("../../config")
+const { verify, getToken } = require("../../token");
 
 const User = mongoose.model('User')
+const Character = mongoose.model('Character')
 
 const router = new Router({
   prefix: '/user'
@@ -56,11 +58,26 @@ router.delete('/:id',async (ctx) => {
 
 // 添加
 router.post('/add', async(ctx) => {
-  const { account, password } = getBody(ctx)
+  const { account, password, character } = getBody(ctx)
+
+  const char = Character.findOne({
+    _id: character
+  })
+
+  // 查看库中是否存在
+  if(!char) {
+    ctx.body = {
+      code: 0,
+      data: null,
+      msg: "出错了"
+    }
+    return;
+  }
 
   const user = new User({
     account,
-    password: password || '12345'
+    password: password || '12345',
+    character
   })
 
   const res = await user.save()
@@ -82,7 +99,7 @@ router.post('/reset/password', async(ctx) => {
     ctx.body = {
       code: 0,
       data: null,
-      msg: "查无此账户"
+      msg: "出错了"
     }
     return;
   }
@@ -99,6 +116,15 @@ router.post('/reset/password', async(ctx) => {
       account: res.account,
       _id: res._id,
     },
+    code: 1
+  }
+})
+
+router.get('/info', async(ctx) => {
+  // Authorization：Bearer $%^78623frgrgsd
+  ctx.body = {
+    data: await verify(getToken(ctx)),
+    msg: "获取成功",
     code: 1
   }
 })

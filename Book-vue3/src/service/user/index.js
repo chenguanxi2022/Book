@@ -17,10 +17,11 @@ export const remove = (id) => {
 };
 
 // 添加
-export const add = (account, password) => {
+export const add = (account, password, character) => {
   return axios.post("http://localhost:3000/user/add", {
     account,
     password,
+    character,
   });
 };
 
@@ -29,4 +30,8 @@ export const resetPassword = (id) => {
   return axios.post("http://localhost:3000/user/reset/password", {
     id,
   });
+};
+
+export const info = () => {
+  return axios.get("http://localhost:3000/user/info");
 };

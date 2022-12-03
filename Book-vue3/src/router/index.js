@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import { useCharacterStore } from "../stores/character";
+import { useUserStore } from "../stores/user";
+ 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,6 +34,16 @@ const router = createRouter({
       ],
     },
   ],
+});
+
+router.beforeEach(async (to, from, next) => {
+  const storeC = useCharacterStore();
+  const storeU = useUserStore();
+  if (!storeC.characterInfo.length) {
+    storeC.getList();
+  }
+  storeU.getUserInfo();
+  next();
 });
 
 export default router;

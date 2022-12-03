@@ -3,6 +3,7 @@ const invite = require('./InviteCode')
 const book = require('./Book')
 const log = require('./Log')
 const user = require('./User')
+const character = require('./Character')
 
 module.exports = (app) => {
   app.use(auth.routes())
@@ -10,4 +11,5 @@ module.exports = (app) => {
   app.use(book.routes())
   app.use(log.routes())
   app.use(user.routes())
+  app.use(character.routes())
 } 
