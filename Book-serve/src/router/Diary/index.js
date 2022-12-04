@@ -44,6 +44,7 @@ router.post('/delete', async(ctx) => {
       msg: "删除成功",
       data: null
     }
+    return;
   }
   
   one.show = false

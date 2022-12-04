@@ -41,7 +41,9 @@
             </a-input>
           </div>
           <!-- 忘记密码 -->
-          <a href="javascript:;"><div class="auth-form-item">忘记密码</div></a>
+          <a href="javascript:;" @click="forgetPassword"
+            ><div class="auth-form-item">忘记密码</div></a
+          >
           <!-- Button -->
           <div class="auth-form-item">
             <a-button size="large" class="button" type="primary" @click="login"
@@ -110,13 +112,14 @@ import {
   LockOutlined,
   MailOutlined,
 } from "@ant-design/icons-vue";
-import { message } from "ant-design-vue";
-import { auth } from "../../service";
+import { message, Modal } from "ant-design-vue";
+import { auth, resetPassword } from "../../service";
 import { result } from "../../utils";
 import { useUserStore } from "../../stores/user";
 import { getCharacterInfoById } from "../../character";
 import { useRouter } from "vue-router";
 import { setToken } from "../../utils/token";
+import { createVNode } from "vue";
 
 // router
 const router = useRouter();
@@ -193,10 +196,27 @@ const login = async () => {
   //   message.error(data.msg);
   // }
 };
+// forgetPassword
+const forgetPassword = () => {
+  Modal.confirm({
+    title: "输入账号发起请求，管理员会审核",
+    content: createVNode("input", { class: "forget-password-count" }),
+    onOk: async () => {
+      const el = document.querySelector(".forget-password-count");
+      let account = el.value;
+
+      const res = await resetPassword.add(account);
+
+      result(res).success(({ msg }) => {
+        message.success(msg);
+      });
+    },
+  });
+};
 </script>
 
 <style scoped lang="scss">
-::v-deep .ant-input-prefix {
+:deep(.ant-input-prefix) {
   margin-right: 10px;
 }
 .bg {
@@ -210,6 +230,7 @@ const login = async () => {
   background-size: cover;
   background-position: center center;
   opacity: 0.2;
+  z-index: -1;
 }
 .auth {
   z-index: 999;

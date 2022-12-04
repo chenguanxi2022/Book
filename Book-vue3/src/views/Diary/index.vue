@@ -39,8 +39,9 @@
           <a-pagination
             v-model:current="curPage"
             :total="total"
-            :pageSize="20"
+            :pageSize="curPageSize"
             @change="setPage"
+            @showSizeChange="onShowSizeChange"
           />
         </flex-end>
       </a-card>
@@ -56,6 +57,7 @@ import { getDiaryInfoByPath } from "../../diary";
 import { message } from "ant-design-vue";
 
 const curPage = ref(1);
+const curPageSize = ref(20);
 const total = ref(0);
 const list = ref([]);
 const loading = ref(true);
@@ -85,7 +87,7 @@ const columns = [
 // 获取日志列表
 const getList = async () => {
   loading.value = true;
-  const res = await diary.list(curPage.value, 20);
+  const res = await diary.list(curPage.value, curPageSize.value);
   loading.value = false;
 
   result(res).success(({ data: { list: l, total: t } }) => {
@@ -109,6 +111,12 @@ const remove = async ({ _id }) => {
     message.success(msg);
     getList();
   });
+};
+// 改变每页显示条数
+const onShowSizeChange = (page, pageSize) => {
+  curPage.value = page;
+  curPageSize.value = pageSize;
+  getList();
 };
 
 onMounted(async () => {

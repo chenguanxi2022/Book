@@ -14,4 +14,15 @@ export default [
     url: "/diary",
     onlyAdmin: true,
   },
+  {
+    title: "杂项",
+    onlyAdmin: false,
+    children: [
+      {
+        title: "重置密码",
+        url: "/reset/password",
+        onlyAdmin: true,
+      },
+    ],
+  },
 ];

@@ -36,6 +36,11 @@ const router = createRouter({
           name: "Diary",
           component: () => import("../views/Diary/index.vue"),
         },
+        {
+          path: "reset/password",
+          name: "ResetPassword",
+          component: () => import("../views/ResetPassword/index.vue"),
+        },
       ],
     },
   ],

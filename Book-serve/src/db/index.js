@@ -7,6 +7,7 @@ require('./Schema/Log')
 require('./Schema/Character')
 require('./Schema/Diary')
 require('./Schema/DiaryResponse')
+require('./Schema/ForgetPassword')
 
 const connect = () => {
   return new Promise((resolve,reject) => {
