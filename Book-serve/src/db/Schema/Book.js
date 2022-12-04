@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const { getMeta,preSave } = require('../../utils')
 
-const BookSchema = mongoose.Schema({
+const BookSchema = new mongoose.Schema({
   /**
    * 书名、价格、作者、出版日期、分类、库存
    */

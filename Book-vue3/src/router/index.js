@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { useCharacterStore } from "../stores/character";
 import { useUserStore } from "../stores/user";
- 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,6 +31,11 @@ const router = createRouter({
           name: "User",
           component: () => import("../views/User/index.vue"),
         },
+        {
+          path: "diary",
+          name: "Diary",
+          component: () => import("../views/Diary/index.vue"),
+        },
       ],
     },
   ],
@@ -40,9 +45,11 @@ router.beforeEach(async (to, from, next) => {
   const storeC = useCharacterStore();
   const storeU = useUserStore();
   if (!storeC.characterInfo.length) {
-    storeC.getList();
+    await storeC.getList();
   }
-  storeU.getUserInfo();
+  if (!storeU.userInfo.account) {
+    await storeU.getUserInfo();
+  }
   next();
 });
 

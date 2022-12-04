@@ -1,3 +1,4 @@
+// 出入库日志
 const mongoose = require('mongoose');
 const { getMeta, preSave } = require('../../utils')
 

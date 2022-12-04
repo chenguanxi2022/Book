@@ -5,6 +5,8 @@ require('./Schema/InviteCode')
 require('./Schema/Book')
 require('./Schema/Log')
 require('./Schema/Character')
+require('./Schema/Diary')
+require('./Schema/DiaryResponse')
 
 const connect = () => {
   return new Promise((resolve,reject) => {

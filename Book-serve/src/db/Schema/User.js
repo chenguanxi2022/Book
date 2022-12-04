@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const { getMeta, preSave } = require('../../utils')
 
-const UserSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   account:String,
   password:String,
   character:String,

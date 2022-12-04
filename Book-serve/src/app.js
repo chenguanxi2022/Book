@@ -1,13 +1,13 @@
 const koa = require('koa')
 
 const { koaBody } = require('koa-body')
-const cors = require('@koa/cors')
-const { middleWare: JwtMiddleWare, cacheTokenError} = require("./token")
-
-const app = new koa()
-
 const connect = require('./db')
 const registerRouter = require('./router')
+const { middleWare: JwtMiddleWare, cacheTokenError} = require("./token")
+const { diaryMiddleWare } = require("./diary")
+const cors = require('@koa/cors')
+
+const app = new koa()
 
 connect().then(() => {
   // cors 跨域
@@ -19,6 +19,9 @@ connect().then(() => {
   app.use(cacheTokenError)
   // koa-jwt 鉴权
   JwtMiddleWare(app)
+
+  // diary 中间件
+  app.use(diaryMiddleWare)
 
   registerRouter(app)
 

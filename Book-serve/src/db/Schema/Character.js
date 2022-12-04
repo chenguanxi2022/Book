@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const { getMeta, preSave } = require('../../utils')
 
-const CharacterSchema = mongoose.Schema({
+const CharacterSchema = new mongoose.Schema({
   name: String,
   title: String,
   power: Object,

@@ -1,10 +1,10 @@
-const TOKEN_STORAGE_KEY = "_TSK"
+const TOKEN_STORAGE_KEY = "_TSK";
 
 export const getToken = () => {
   return localStorage.getItem(TOKEN_STORAGE_KEY) || "";
 };
 
 export const setToken = (token) => {
-  localStorage.setItem(TOKEN_STORAGE_KEY, token)
+  localStorage.setItem(TOKEN_STORAGE_KEY, token);
   return token;
-}
+};

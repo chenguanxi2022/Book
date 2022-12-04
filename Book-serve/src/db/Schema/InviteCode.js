@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const { getMeta, preSave } = require('../../utils')
 
-const InviteCodeSchema = mongoose.Schema({
+const InviteCodeSchema = new mongoose.Schema({
   // 邀请码
   code: String,
   // 用来注册那个账户
