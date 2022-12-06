@@ -32,7 +32,14 @@
         </a-form-item>
         <!-- 分类 -->
         <a-form-item label="分类">
-          <a-input v-model:value="editForm.classify" placeholder="分类" />
+          <a-select v-model:value="editForm.classify" style="width: 120px">
+            <a-select-option
+              v-for="item in store.bookClassifyList"
+              :key="item._id"
+              v-model:value="item._id"
+              >{{ item.title }}</a-select-option
+            >
+          </a-select>
         </a-form-item>
         <!-- 库存 -->
         <!-- <a-form-item label="库存">
@@ -54,6 +61,9 @@ import { book } from "../../../service/";
 import { result } from "../../../utils";
 import dayjs from "dayjs";
 import { message } from "ant-design-vue";
+import { useBookClassifyStore } from "../../../stores/bookClassify";
+
+const store = useBookClassifyStore();
 // props
 const props = defineProps({
   isShow: Boolean,

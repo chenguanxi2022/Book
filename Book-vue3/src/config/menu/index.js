@@ -23,6 +23,16 @@ export default [
         url: "/reset/password",
         onlyAdmin: true,
       },
+      {
+        title: "邀请码管理",
+        url: "/inviteCode",
+        onlyAdmin: true,
+      },
+      {
+        title: "图书分类",
+        url: "/bookClassify",
+        onlyAdmin: true,
+      },
     ],
   },
 ];

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { useCharacterStore } from "../stores/character";
 import { useUserStore } from "../stores/user";
+import { useBookClassifyStore } from "../stores/bookClassify";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,16 @@ const router = createRouter({
           name: "ResetPassword",
           component: () => import("../views/ResetPassword/index.vue"),
         },
+        {
+          path: "inviteCode",
+          name: "InviteCode",
+          component: () => import("../views/InviteCode/index.vue"),
+        },
+        {
+          path: "bookClassify",
+          name: "BookClassify",
+          component: () => import("../views/BookClassify/index.vue"),
+        },
       ],
     },
   ],
@@ -49,12 +60,16 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const storeC = useCharacterStore();
   const storeU = useUserStore();
+  const storeB = useBookClassifyStore();
   if (!storeC.characterInfo.length) {
     await storeC.getList();
   }
   if (!storeU.userInfo.account) {
     await storeU.getUserInfo();
   }
+
+  await storeB.getBookClassify();
+
   next();
 });
 

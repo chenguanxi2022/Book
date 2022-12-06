@@ -46,7 +46,7 @@ router.post('/add',async (ctx) => {
 // list 渲染
 router.get('/list',async (ctx) => {
   // https://aa.cc.com/user?page=2&size=20&#fdsafds
-  const { page = 1, size = 10, keyWord = '' } = ctx.query
+  const { page = 1, size = 10, keyWord = '' } = ctx.request.query
   const query = {}
   // 判断 keyWord 是否为空
   if(keyWord) {

@@ -5,3 +5,5 @@ export * as user from "./user";
 export * as character from "./character";
 export * as diary from "./diary";
 export * as resetPassword from "./resetPassword";
+export * as inviteCode from "./inviteCode";
+export * as bookClassify from "./bookClassify";

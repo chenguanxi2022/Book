@@ -1,21 +1,41 @@
 <template>
   <div>
     <a-card title="重置密码申请列表">
-      <a-table bordered :pagination="false" :data-source="list" :columns="columns">
-        <template #bodyCell="{column,record}">
+      <a-table
+        bordered
+        :pagination="false"
+        :data-source="list"
+        :columns="columns"
+      >
+        <template #bodyCell="{ column, record }">
           <!-- 申请时间 -->
           <template v-if="column.dataIndex === 'createdAt'">
             <span>{{ formatTime(record.meta.createdAt) }}</span>
           </template>
           <!-- 操作 -->
           <template v-if="column.dataIndex === 'operate'">
-            <a-button type="primary" size="small" @click="changeStatus(record, 2)">重置</a-button>
-            <a-button size="small" style="margin-left: 16px" @click="changeStatus(record, 3)">忽略</a-button>
+            <a-button
+              type="primary"
+              size="small"
+              @click="changeStatus(record, 2)"
+              >重置</a-button
+            >
+            <a-button
+              size="small"
+              style="margin-left: 16px"
+              @click="changeStatus(record, 3)"
+              >忽略</a-button
+            >
           </template>
         </template>
       </a-table>
       <flex-end style="margin-top: 24px">
-        <a-pagination v-model:current="curPage" :total="total" :pageSize="20" @change="setPage"></a-pagination>
+        <a-pagination
+          v-model:current="curPage"
+          :total="total"
+          :pageSize="20"
+          @change="setPage"
+        ></a-pagination>
       </flex-end>
     </a-card>
   </div>
@@ -50,7 +70,7 @@ const columns = [
 // 获取列表
 const getList = async () => {
   const res = await resetPassword.list(curPage.value, 20);
-  result(res).success(({data: {list: l, total: t}}) => {
+  result(res).success(({ data: { list: l, total: t } }) => {
     list.value = l;
     total.value = t;
   });

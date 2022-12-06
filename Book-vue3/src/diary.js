@@ -7,6 +7,10 @@ const DIARY_MAP = [
   ["/diary/list", "获取日志列表"],
   ["/forgetPassword/list", "重置密码列表"],
   ["/book/detail", "获取数据详情"],
+  ["/invite/list", "邀请码管理"],
+  ["/bookClassify/list", "图书分类列表"],
+  ["/book", "书籍详情"],
+  ["/bookClassify", "书籍分类"],
 ];
 
 export const getDiaryInfoByPath = (path) => {

@@ -3,6 +3,8 @@ import { message } from "ant-design-vue";
 import { createApp } from "vue";
 import App from "../App.vue";
 
+import { useBookClassifyStore } from "../stores/bookClassify";
+
 // 引入 spaceBetween 组件
 import spaceBetween from "../components/SpaceBetween/index.vue";
 import flexEnd from "../components/FlexEnd/index.vue";
@@ -82,4 +84,12 @@ const timePadStart = (str) => {
   str = String(str);
 
   return str.padStart(2, 0);
+};
+
+export const getClassifyTtileById = (id) => {
+  const { bookClassifyList } = useBookClassifyStore();
+
+  const one = bookClassifyList.find((item) => item._id === id);
+
+  return (one && one.title) || "未知";
 };

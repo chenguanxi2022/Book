@@ -35,7 +35,14 @@
         </a-form-item>
         <!-- 分类 -->
         <a-form-item label="分类">
-          <a-input v-model:value="formState.classify" placeholder="分类" />
+          <a-select v-model:value="formState.classify" style="width: 120px">
+            <a-select-option
+              v-for="item in store.bookClassifyList"
+              :key="item._id"
+              v-model:value="item._id"
+              >{{ item.title }}</a-select-option
+            >
+          </a-select>
         </a-form-item>
         <!-- 库存 -->
         <a-form-item label="库存">
@@ -56,6 +63,9 @@
 import { book } from "../../../service/";
 import { result, clone } from "../../../utils";
 import { message } from "ant-design-vue";
+import { useBookClassifyStore } from "../../../stores/bookClassify";
+
+const store = useBookClassifyStore();
 // props
 const props = defineProps({
   isShow: Boolean,
@@ -80,6 +90,11 @@ const defaultFormState = {
 };
 // eslint-disable-next-line no-undef
 const formState = reactive(clone(defaultFormState));
+// 初始化分类
+if (store.bookClassifyList.length) {
+  formState.classify = store.bookClassifyList[0]._id;
+}
+
 // 确定
 const submit = async () => {
   // 深拷贝，复制一份 formState

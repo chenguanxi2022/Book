@@ -6,6 +6,7 @@ const user = require('./User')
 const character = require('./Character')
 const diary = require('./Diary')
 const forgetPassword = require('./ForgetPassword')
+const BookClassify = require('./BookClassify')
 
 module.exports = (app) => {
   app.use(auth.routes())
@@ -16,4 +17,5 @@ module.exports = (app) => {
   app.use(character.routes())
   app.use(diary.routes())
   app.use(forgetPassword.routes())
+  app.use(BookClassify.routes())
 } 

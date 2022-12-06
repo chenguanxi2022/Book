@@ -21,6 +21,7 @@
         <plus-circle-two-tone
           :style="{ fontSize: '32px', color: '#52c41a', marginRight: '38px' }"
           @click="isShow = true"
+          :loading="loading"
         />
       </space-between>
       <!-- 分割线 -->
@@ -52,6 +53,10 @@
           <!-- 处理出版日期 -->
           <template v-if="column.dataIndex === 'date'">
             {{ formatTime2(record.date) }}
+          </template>
+          <!-- 分类 -->
+          <template v-if="column.dataIndex === 'classify'">
+            {{ getClassifyTtileById(record.classify) }}
           </template>
           <!-- 操作 -->
           <template v-if="column.dataIndex === 'actions'">
@@ -107,11 +112,12 @@
 import addOne from "./AddOne/index.vue";
 import Update from "./Update/index.vue";
 import { book } from "../../service";
-import { formatTime2, result } from "../../utils";
+import { formatTime2, result, getClassifyTtileById } from "../../utils";
 import { message, Modal } from "ant-design-vue";
 import { PlusCircleTwoTone } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
 import { createVNode } from "vue";
+
 const router = useRouter();
 // 表格列的配置描述
 const columns = [
@@ -181,6 +187,7 @@ const isSearch = ref(false);
 // 传递数据
 // eslint-disable-next-line no-undef
 const curBook = reactive({});
+
 // getList（获取书籍列表信息）
 const getList = async () => {
   const res = await book.list({
@@ -195,7 +202,7 @@ const getList = async () => {
   });
 };
 // eslint-disable-next-line no-undef
-onMounted(() => {
+onMounted(async () => {
   getList();
 });
 // 页码改变，重新请求
