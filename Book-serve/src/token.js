@@ -31,7 +31,7 @@ const middleWare = (app) => {
     path: [
       /^\/auth\/login/,
       /^\/auth\/register/,
-    ]
+]
   }))
 }
 
@@ -51,5 +51,6 @@ const cacheTokenError = async(ctx, next) => {
 }
 
 module.exports = {
-  verify,getToken,middleWare,cacheTokenError
+  verify,
+  getToken,middleWare,cacheTokenError
 }

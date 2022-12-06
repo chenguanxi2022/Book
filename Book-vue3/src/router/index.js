@@ -52,23 +52,28 @@ const router = createRouter({
           name: "BookClassify",
           component: () => import("../views/BookClassify/index.vue"),
         },
+        {
+          path: "profile",
+          name: "Profile",
+          component: () => import("../views/Profile/index.vue"),
+        },
       ],
     },
   ],
 });
 
 router.beforeEach(async (to, from, next) => {
-  const storeC = useCharacterStore();
-  const storeU = useUserStore();
-  const storeB = useBookClassifyStore();
-  if (!storeC.characterInfo.length) {
-    await storeC.getList();
+  const { characterInfo, getList } = useCharacterStore();
+  const { userInfo, getUserInfo } = useUserStore();
+  const { getBookClassify } = useBookClassifyStore();
+  if (!characterInfo.length) {
+    await getList();
   }
-  if (!storeU.userInfo.account) {
-    await storeU.getUserInfo();
+  if (!userInfo.account) {
+    await getUserInfo();
   }
 
-  await storeB.getBookClassify();
+  await getBookClassify();
 
   next();
 });

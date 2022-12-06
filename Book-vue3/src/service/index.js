@@ -7,3 +7,4 @@ export * as diary from "./diary";
 export * as resetPassword from "./resetPassword";
 export * as inviteCode from "./inviteCode";
 export * as bookClassify from "./bookClassify";
+export * as profile from "./profile";

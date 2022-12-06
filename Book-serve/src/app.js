@@ -18,7 +18,7 @@ connect().then(() => {
   
   app.use(cacheTokenError)
   // koa-jwt 鉴权
-  // JwtMiddleWare(app)
+  JwtMiddleWare(app)
 
   // diary 中间件
   app.use(diaryMiddleWare)

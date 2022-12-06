@@ -29,7 +29,7 @@
           </div>
           <!-- 密码 -->
           <div class="auth-form-item">
-            <a-input
+            <a-input-password
               size="large"
               placeholder="密码"
               v-model:value="logForm.password"
@@ -38,7 +38,7 @@
               <template #prefix>
                 <lock-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
-            </a-input>
+            </a-input-password>
           </div>
           <!-- 忘记密码 -->
           <a href="javascript:;" @click="forgetPassword"
@@ -67,7 +67,7 @@
           </div>
           <!-- 密码 -->
           <div class="auth-form-item">
-            <a-input
+            <a-input-password
               size="large"
               placeholder="密码"
               v-model:value="regForm.password"
@@ -76,7 +76,7 @@
               <template #prefix>
                 <lock-outlined :style="{ fontSize: '16px', color: '#08c' }" />
               </template>
-            </a-input>
+            </a-input-password>
           </div>
           <!-- 邀请码 -->
           <div class="auth-form-item">

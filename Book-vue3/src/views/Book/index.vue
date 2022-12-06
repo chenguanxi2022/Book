@@ -21,7 +21,6 @@
         <plus-circle-two-tone
           :style="{ fontSize: '32px', color: '#52c41a', marginRight: '38px' }"
           @click="isShow = true"
-          :loading="loading"
         />
       </space-between>
       <!-- 分割线 -->

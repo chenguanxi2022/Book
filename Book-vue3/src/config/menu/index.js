@@ -35,4 +35,9 @@ export default [
       },
     ],
   },
+  {
+    title: "个人信息",
+    url: "/profile",
+    onlyAdmin: false,
+  },
 ];

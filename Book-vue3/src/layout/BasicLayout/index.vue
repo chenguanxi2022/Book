@@ -10,7 +10,9 @@
         <div class="title">图书管理系统</div>
       </div>
       <div class="right">
-        <div class="hello-msg">你好，XXX</div>
+        <div class="hello-msg">你好，
+          <strong>{{ userInfo.account }}</strong>
+        </div>
         <div class="logout">退出</div>
       </div>
     </div>
@@ -31,6 +33,8 @@
 
 <script setup>
 import appNav from "../Nav/index.vue";
+import { useUserStore } from "../../stores/user";
+const { userInfo } = useUserStore();
 </script>
 
 <style scoped lang="scss">
