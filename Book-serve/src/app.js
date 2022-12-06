@@ -14,11 +14,20 @@ connect().then(() => {
   app.use(cors())
 
   // router 前使用 koaBody()
-  app.use(koaBody())
+  app.use(koaBody({
+    // 支持文件上传
+    multipart: true,
+    // 尺寸大小
+    formidable: {
+      // 文件最大内存
+      maxFileSize: 200 * 1024 * 200
+      // 200M
+    }
+  }))
   
-  app.use(cacheTokenError)
-  // koa-jwt 鉴权
-  JwtMiddleWare(app)
+  // app.use(cacheTokenError)
+  // // koa-jwt 鉴权
+  // JwtMiddleWare(app)
 
   // diary 中间件
   app.use(diaryMiddleWare)

@@ -3,3 +3,4 @@
 const { koaBody } = require('koa-body')
 app.use(koaBody())
 ```
+## 2.`file.path` 为 `undefined`，改为 `file.filepath`

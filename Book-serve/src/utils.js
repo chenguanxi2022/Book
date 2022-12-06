@@ -31,6 +31,15 @@ const preSave = function(next) {
   next();
 }
 
+// 拿到上传文件名后缀
+const getUploadFileExt = (ctx) => { 
+  // 没有就为 '空'
+  const { originalFilename = '' } = ctx.request.files.file
+
+  // . 进行分隔并 pop 出来（删除数组最后一个元素并返回）
+  return originalFilename.split('.').pop()
+}
+
 module.exports = {
-  getMeta,getBody,preSave
+  getMeta,getBody,preSave,getUploadFileExt
 }

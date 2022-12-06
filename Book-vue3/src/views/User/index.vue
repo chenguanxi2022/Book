@@ -15,10 +15,14 @@
           />
           <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
         </div>
-        <!-- button -->
-        <a-button type="primary" @click="showAddModal = true"
-          >添加用户</a-button
-        >
+        <div>
+          <!-- 添加用户 -->
+          <a-button @click="showAddModal = true" style="margin-right: 24px">添加用户</a-button>
+          <!-- 上传 excel -->
+          <a-upload action="http://localhost:3000/upload/file">
+            <a-button type="primary" @click="upload">上传 Excel</a-button>
+          </a-upload>
+        </div>
       </space-between>
       <a-divider />
       <!-- table -->

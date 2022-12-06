@@ -1,3 +1,5 @@
+const path = require("path")
+
 /**
  * 获得 key
  * @returns String
@@ -11,5 +13,7 @@ const getPwd = () => {
 }
 
 module.exports = {
-  getKey, getPwd
+  getKey, getPwd, 
+  // 当前位置，相对路径
+  UPLOAD_DIR: path.resolve(__dirname, '../upload')
 }
