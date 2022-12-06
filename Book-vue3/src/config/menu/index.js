@@ -1,5 +1,10 @@
 export default [
   {
+    title: "页面总览",
+    url: "/dashboard",
+    onlyAdmin: true,
+  },
+  {
     title: "书籍管理",
     url: "/book",
     onlyAdmin: false,

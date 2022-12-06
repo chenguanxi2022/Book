@@ -1,40 +1,44 @@
 <template>
   <div>
-    <a-card>
-      <h2 style="font-weight: 900">图书列表</h2>
-      <!-- 分割线 -->
-      <a-divider />
-      <!-- space-between -->
-      <space-between>
-        <!-- 搜索框 -->
-        <div class="search">
-          <a-input-search
-            placeholder="根据书名搜索"
-            enter-button
-            v-model:value="keyWord"
-            @search="onSearch"
-            @keyup.enter="onSearch"
+    <a-card :title="props.simple ? '最近添加书籍' : ''">
+      <!-- simple -->
+      <div v-if="!props.simple">
+        <h2 style="font-weight: 900">图书列表</h2>
+        <!-- 分割线 -->
+        <a-divider />
+        <!-- space-between -->
+        <space-between>
+          <!-- 搜索框 -->
+          <div class="search">
+            <a-input-search
+              placeholder="根据书名搜索"
+              enter-button
+              v-model:value="keyWord"
+              @search="onSearch"
+              @keyup.enter="onSearch"
+            />
+            <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
+          </div>
+          <!-- button -->
+          <plus-circle-two-tone
+            :style="{ fontSize: '32px', color: '#52c41a', marginRight: '38px' }"
+            @click="isShow = true"
           />
-          <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
-        </div>
-        <!-- button -->
-        <plus-circle-two-tone
-          :style="{ fontSize: '32px', color: '#52c41a', marginRight: '38px' }"
-          @click="isShow = true"
-        />
-      </space-between>
-      <!-- 分割线 -->
-      <a-divider />
+        </space-between>
+        <!-- 分割线 -->
+        <a-divider />
+      </div>
       <!-- table -->
       <a-table
         :columns="columns"
         :data-source="list"
         :pagination="false"
         bordered
+        :scroll="{ x: 'max-content' }"
       >
         <template #bodyCell="{ column, record }">
           <!-- 库存 -->
-          <template v-if="column.dataIndex === 'count'">
+          <template v-if="column.dataIndex === 'count' && !props.simple">
             <a
               href="javascript:;"
               @click="updateCount('1', record._id)"
@@ -84,7 +88,7 @@
           </template>
         </template>
       </a-table>
-      <space-between style="margin-top: 24px">
+      <space-between style="margin-top: 24px" v-if="!props.simple">
         <!-- 空盒子 -->
         <div></div>
         <!-- 分页器 -->
@@ -116,6 +120,10 @@ import { message, Modal } from "ant-design-vue";
 import { PlusCircleTwoTone } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
 import { createVNode } from "vue";
+
+const props = defineProps({
+  simple: Boolean,
+});
 
 const router = useRouter();
 // 表格列的配置描述
@@ -153,12 +161,19 @@ const columns = [
     dataIndex: "classify",
     align: "center",
   },
-  {
+  // {
+  //   title: "操作",
+  //   dataIndex: "actions",
+  //   align: "center",
+  // },
+];
+if (!props.simple) {
+  columns.push({
     title: "操作",
     dataIndex: "actions",
     align: "center",
-  },
-];
+  });
+}
 // 弹窗显示与隐藏
 // eslint-disable-next-line no-undef
 const isShow = ref(false);

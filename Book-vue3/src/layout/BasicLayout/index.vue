@@ -10,8 +10,9 @@
         <div class="title">图书管理系统</div>
       </div>
       <div class="right">
-        <div class="hello-msg">你好，
-          <strong>{{ userInfo.account }}</strong>
+        <div class="hello-msg">
+          你好，
+          <strong style="color: black">{{ userInfo.account }}</strong>
         </div>
         <div class="logout">退出</div>
       </div>
@@ -92,7 +93,7 @@ const { userInfo } = useUserStore();
     display: flex;
     .left {
       position: fixed;
-      top: 64px;
+      top: 68px;
       bottom: 0;
       width: 256px;
       background-color: #ffffff;

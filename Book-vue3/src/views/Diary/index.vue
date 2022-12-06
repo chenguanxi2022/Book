@@ -2,17 +2,20 @@
   <div>
     <a-spin :spinning="loading">
       <!-- 卡片 -->
-      <a-card>
-        <!-- title -->
-        <h2>操作日志</h2>
-        <a-divider />
-        <!-- table -->
+      <a-card :title="props.simple ? '最近操作日志' : ''">
+        <div v-if="!props.simple">
+          <!-- title -->
+          <h2>操作日志</h2>
+          <a-divider />
+          <!-- table -->
+        </div>
         <div>
           <a-table
             bordered
             :data-source="list"
             :columns="columns"
             :pagination="false"
+            :scroll="{ x: 'max-content' }"
           >
             <template #bodyCell="{ column, record }">
               <!-- 用户名 -->
@@ -35,7 +38,7 @@
           </a-table>
         </div>
         <!-- pagination -->
-        <flex-end style="margin-top: 24px">
+        <flex-end style="margin-top: 24px" v-if="!props.simple">
           <a-pagination
             v-model:current="curPage"
             :total="total"
@@ -56,8 +59,11 @@ import { result, formatTime } from "../../utils";
 import { getDiaryInfoByPath } from "../../diary";
 import { message } from "ant-design-vue";
 
+const props = defineProps({
+  simple: Boolean,
+});
 const curPage = ref(1);
-const curPageSize = ref(20);
+const curPageSize = ref(10);
 const total = ref(0);
 const list = ref([]);
 const loading = ref(true);
@@ -77,12 +83,20 @@ const columns = [
     dataIndex: "createdAt",
     align: "center",
   },
-  {
+  // {
+  //   title: "操作",
+  //   dataIndex: "operate",
+  //   align: "center",
+  // },
+];
+
+if (!props.simple) {
+  columns.push({
     title: "操作",
     dataIndex: "operate",
     align: "center",
-  },
-];
+  });
+}
 
 // 获取日志列表
 const getList = async () => {

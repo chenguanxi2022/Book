@@ -11,6 +11,7 @@ const DIARY_MAP = [
   ["/bookClassify/list", "图书分类列表"],
   ["/book", "书籍详情"],
   ["/bookClassify", "书籍分类"],
+  ["/dashboard/baseInfo", "页面总览"],
 ];
 
 export const getDiaryInfoByPath = (path) => {
