@@ -83,6 +83,7 @@ const add = async () => {
 
   result(res).success(({ msg }) => {
     message.success(msg);
+    addTitle.value = "";
     getList();
   });
 };

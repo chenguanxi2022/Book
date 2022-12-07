@@ -2,8 +2,9 @@ const Router = require('@koa/router');
 const mongoose = require('mongoose');
 
 const { getBody } = require("../../utils")
-const { getPwd } = require("../../config")
+const { getPwd, UPLOAD_DIR } = require("../../config")
 const { verify, getToken } = require("../../token");
+const { loadExcel, getSheet1 } = require("../../excel")
 
 const User = mongoose.model('User')
 const Character = mongoose.model('Character')
@@ -126,6 +127,62 @@ router.get('/info', async(ctx) => {
     data: await verify(getToken(ctx)),
     msg: "获取成功",
     code: 1
+  }
+})
+
+router.post('/addMany', async(ctx) => {
+  const {
+    key
+  } = getBody(ctx)
+
+  const path = `${UPLOAD_DIR}/${key}`
+
+  // 拿到 excel
+  const excel = loadExcel(path)
+
+  // 拿到这个数据
+  const sheet = getSheet1(excel)
+
+  // 空数组
+  const arr = []
+
+  // 找到 name = member 的
+  const character = await Character.find().exec()
+  const member = character.find((item) => item.name === 'member')
+
+  for(let i = 0; i < sheet.length; i++) {
+    let record = sheet[i]
+
+    // 解构出 账号、密码
+    const [account, password] = record
+
+    // 账号是否存在
+    const one = await User.findOne({
+      account
+    })
+    if(one) {
+      ctx.body = {
+        code: 0,
+        msg: "出错啦",
+        data: null
+      }
+      return;
+    }
+
+    arr.push({
+      account,
+      password: password || getPwd(),
+      character: member._id
+    })
+
+  }
+
+  await User.insertMany(arr)
+  
+  ctx.body = {
+    code: 1,
+    msg: "",
+    data: null
   }
 })
 

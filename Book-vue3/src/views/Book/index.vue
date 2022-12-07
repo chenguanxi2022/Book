@@ -19,11 +19,25 @@
             />
             <a href="javascript:;" @click="goBack" v-if="isSearch">返回</a>
           </div>
-          <!-- button -->
-          <plus-circle-two-tone
-            :style="{ fontSize: '32px', color: '#52c41a', marginRight: '38px' }"
-            @click="isShow = true"
-          />
+          <div class="operate">
+            <!-- 上传 Excel -->
+            <a-upload
+              @change="onUploadChange"
+              action="http://localhost:3000/upload/file"
+              class="excel"
+            >
+              <a-button type="primary">上传 Excel</a-button>
+            </a-upload>
+            <!-- 添加书籍 -->
+            <plus-circle-two-tone
+              :style="{
+                fontSize: '32px',
+                color: '#52c41a',
+                marginRight: '38px',
+              }"
+              @click="isShow = true"
+            />
+          </div>
         </space-between>
         <!-- 分割线 -->
         <a-divider />
@@ -280,6 +294,15 @@ const update = (record) => {
 const toDetail = (record) => {
   router.push(`/book/${record._id}`);
 };
+// excelChange
+const onUploadChange = async ({ file }) => {
+  if (file.response) {
+    result(file.response).success(async (data) => {
+      await book.addMany(data);
+      getList();
+    });
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -304,6 +327,12 @@ const toDetail = (record) => {
   background-color: greenyellow;
   &:hover {
     background-color: yellow;
+  }
+}
+.operate {
+  display: flex;
+  .excel {
+    margin-right: 24px;
   }
 }
 </style>

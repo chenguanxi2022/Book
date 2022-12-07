@@ -1,9 +1,12 @@
 const Router = require('@koa/router')
 const mongoose = require('mongoose')
 const { getBody } = require('../../utils')
+const { UPLOAD_DIR } = require("../../config")
+const { loadExcel, getSheet1 } = require("../../excel")
 
 const Book = mongoose.model('Book')
 const Log = mongoose.model('Log')
+const BookClassify = mongoose.model("BookClassify")
 
 const router = new Router({
   prefix: '/book'
@@ -224,6 +227,54 @@ router.get('/detail/:id', async(ctx) => {
     code: 1,
     msg: "查询成功",
     data: one
+  }
+})
+
+// excel 上传
+router.post('/addMany', async(ctx) => {
+  const {
+    key
+  } = getBody(ctx)
+
+  const path = `${UPLOAD_DIR}/${key}`
+
+  // 拿到 excel
+  const excel = loadExcel(path)
+
+  // 拿到这个数据
+  const sheet = getSheet1(excel)
+  // 空数组
+  const arr = []
+
+  for(let i = 0; i < sheet.length; i++) {
+    let record = sheet[i]
+
+    // 解构出 账号、密码
+    const [
+      name, price, author, date, classify, count
+    ] = record
+
+    // 寻找是否有该 分类Id
+    let classifyId = classify
+    const one = await BookClassify.findOne({
+      title: classify,
+    })
+    if(one) {
+      classifyId = one._id
+    }
+
+    arr.push({
+      name, price, author, date, classify:classifyId, count
+    })
+
+  }
+
+  await Book.insertMany(arr)
+
+  ctx.body = {
+    code: 1,
+    msg: "",
+    data: null
   }
 })
 

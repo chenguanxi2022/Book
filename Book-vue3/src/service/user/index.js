@@ -35,3 +35,10 @@ export const resetPassword = (id) => {
 export const info = () => {
   return axios.get("http://localhost:3000/user/info");
 };
+
+// 上传 excel
+export const addMany = (key) => {
+  return axios.post("http://localhost:3000/user/addMany", {
+    key,
+  });
+};

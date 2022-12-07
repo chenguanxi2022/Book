@@ -17,10 +17,15 @@
         </div>
         <div>
           <!-- 添加用户 -->
-          <a-button @click="showAddModal = true" style="margin-right: 24px">添加用户</a-button>
+          <a-button @click="showAddModal = true" style="margin-right: 24px"
+            >添加用户</a-button
+          >
           <!-- 上传 excel -->
-          <a-upload action="http://localhost:3000/upload/file">
-            <a-button type="primary" @click="upload">上传 Excel</a-button>
+          <a-upload
+            @change="onUploadChange"
+            action="http://localhost:3000/upload/file"
+          >
+            <a-button type="primary">上传 Excel</a-button>
           </a-upload>
         </div>
       </space-between>
@@ -210,6 +215,15 @@ const submit = async () => {
     message.success(msg);
     editForm.current.character = editForm.character;
   });
+};
+// 上传文件事件
+const onUploadChange = ({ file }) => {
+  if (file.response) {
+    result(file.response).success(async (data) => {
+      await user.addMany(data);
+      getUserList();
+    });
+  }
 };
 </script>
 
