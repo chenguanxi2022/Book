@@ -1,37 +1,34 @@
-import axios from "axios";
-import { getToken } from "../../utils/token";
-
-axios.defaults.headers["Authorization"] = `Bearer ${getToken()}`;
+import { get, post, del } from "../../utils/request";
 
 export const add = (form) => {
-  return axios.post("http://localhost:3000/book/add", form);
+  return post("/book/add", form);
 };
 
-export const list = (params) => {
-  return axios.get("http://localhost:3000/book/list", {
-    params,
+export const list = (data) => {
+  return get("/book/list", {
+    data,
   });
 };
 
 export const remove = (id) => {
-  return axios.delete(`http://localhost:3000/book/${id}`);
+  return del(`/book/${id}`);
 };
 
 export const updateCount = (data = {}) => {
-  return axios.post("http://localhost:3000/book/updateCount", data);
+  return post("/book/updateCount", data);
 };
 
 export const update = (data = {}) => {
-  return axios.post("http://localhost:3000/book/update", data);
+  return post("/book/update", data);
 };
 
 export const detail = (id) => {
-  return axios.get(`http://localhost:3000/book/detail/${id}`);
+  return get(`/book/detail/${id}`);
 };
 
 // 上传 excel
 export const addMany = (key) => {
-  return axios.post("http://localhost:3000/book/addMany", {
+  return post("/book/addMany", {
     key,
   });
 };

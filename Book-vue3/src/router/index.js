@@ -15,6 +15,7 @@ const router = createRouter({
     {
       path: "/",
       name: "BasicLayout",
+      redirect: "/dashboard",
       component: () => import("../layout/BasicLayout/index.vue"),
       children: [
         {
@@ -68,6 +69,11 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  if (to.path === "/auth") {
+    next();
+    return;
+  }
+
   const { characterInfo, getList } = useCharacterStore();
   const { userInfo, getUserInfo } = useUserStore();
   const { getBookClassify } = useBookClassifyStore();

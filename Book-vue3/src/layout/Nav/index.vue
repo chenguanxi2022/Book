@@ -8,7 +8,7 @@
       v-for="item in menu"
       :key="item.url"
     >
-      <a-sub-menu v-if="item.children">
+      <a-sub-menu v-if="item.children" :key="item.title">
         <template #title>{{ item.title }}</template>
         <a-menu-item
           v-for="child in item.children"
@@ -41,6 +41,14 @@ const to = (url) => {
 
 onMounted(() => {
   selectedKeys.value = [route.path];
+
+  menu.forEach((item) => {
+    (item.children || []).forEach((child) => {
+      if (child.url === route.path) {
+        openKeys.value.push(item.title);
+      }
+    });
+  });
 });
 </script>
 

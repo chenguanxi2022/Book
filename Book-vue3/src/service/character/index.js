@@ -1,11 +1,11 @@
-import axios from "axios";
+import { get, post } from "../../utils/request";
 
 export const list = () => {
-  return axios.get("http://localhost:3000/character/list");
+  return get("/character/list");
 };
 
 export const edit = (character, userId) => {
-  return axios.post("http://localhost:3000/character/update", {
+  return post("/character/update", {
     character,
     userId,
   });

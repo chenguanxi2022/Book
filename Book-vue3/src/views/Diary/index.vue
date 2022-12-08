@@ -74,7 +74,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "动作",
+    title: "行为",
     dataIndex: "action",
     align: "center",
   },

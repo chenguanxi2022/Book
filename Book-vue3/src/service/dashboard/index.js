@@ -1,5 +1,5 @@
-import axios from "axios";
+import { get } from "../../utils/request";
 
 export const baseInfo = () => {
-  return axios.get("http://localhost:3000/dashboard/baseInfo");
+  return get("/dashboard/baseInfo");
 };
