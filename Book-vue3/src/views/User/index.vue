@@ -24,6 +24,7 @@
           <a-upload
             @change="onUploadChange"
             action="http://localhost:3000/upload/file"
+            :headers="headers"
           >
             <a-button type="primary">上传 Excel</a-button>
           </a-upload>
@@ -105,6 +106,8 @@ import addOne from "./AddOne/index.vue";
 import { getCharacterInfoById } from "../../character";
 import { EditTwoTone } from "@ant-design/icons-vue";
 import { useCharacterStore } from "../../stores/character";
+import { getHeaders } from "../../utils/request";
+const headers = getHeaders();
 
 // store
 const store = useCharacterStore();

@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useCharacterStore } from "../stores/character";
 import { useUserStore } from "../stores/user";
 import { useBookClassifyStore } from "../stores/bookClassify";
+import { user } from "../service";
+import { message } from "ant-design-vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +17,7 @@ const router = createRouter({
     {
       path: "/",
       name: "BasicLayout",
-      redirect: "/dashboard",
+      redirect: "/auth",
       component: () => import("../layout/BasicLayout/index.vue"),
       children: [
         {
@@ -69,8 +71,25 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.path === "/auth") {
-    next();
+  let res = {};
+  try {
+    res = await user.info();
+  } catch (e) {
+    if (e.message.includes("code 401")) {
+      res.code = 401;
+    }
+  }
+
+  const { code } = res;
+
+  if (code === 401) {
+    if (to.path === "/auth") {
+      next();
+      return;
+    }
+
+    message.error("认证失败，请重新登陆");
+    next("/auth");
     return;
   }
 
@@ -85,6 +104,11 @@ router.beforeEach(async (to, from, next) => {
   }
 
   await getBookClassify();
+
+  if (to.path === "/auth") {
+    next("/book");
+    return;
+  }
 
   next();
 });

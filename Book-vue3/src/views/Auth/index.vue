@@ -179,13 +179,16 @@ const login = async () => {
     return;
   }
   const res = await auth.login(logForm.account, logForm.password);
-  result(res).success(({ msg, data: { data, token } }) => {
+  result(res).success(async ({ msg, data: { data, token } }) => {
     message.success(msg);
-    store.setUserInfo(data);
-    store.setUserCharacter(getCharacterInfoById(data.character));
 
     // 保存在 localStorage 中
     setToken(token);
+
+    await store.getUserInfo();
+
+    store.setUserInfo(data);
+    store.setUserCharacter(getCharacterInfoById(data.character));
 
     router.replace("/book");
   });

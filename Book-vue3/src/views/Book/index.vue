@@ -24,6 +24,7 @@
             <a-upload
               @change="onUploadChange"
               action="http://localhost:3000/upload/file"
+              :headers="headers"
               class="excel"
             >
               <a-button type="primary">上传 Excel</a-button>
@@ -134,6 +135,8 @@ import { message, Modal } from "ant-design-vue";
 import { PlusCircleTwoTone } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
 import { createVNode } from "vue";
+import { getHeaders } from "../../utils/request";
+const headers = getHeaders();
 
 const props = defineProps({
   simple: Boolean,

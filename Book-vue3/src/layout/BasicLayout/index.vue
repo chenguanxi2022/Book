@@ -14,7 +14,7 @@
           你好，
           <strong style="color: black">{{ userInfo.account }}</strong>
         </div>
-        <div class="logout">退出</div>
+        <div class="logout" @click="logout">退出</div>
       </div>
     </div>
     <!-- 占位 div -->
@@ -34,8 +34,14 @@
 
 <script setup>
 import appNav from "../Nav/index.vue";
+import { setToken } from "../../utils/token";
 import { useUserStore } from "../../stores/user";
 const { userInfo } = useUserStore();
+
+const logout = () => {
+  setToken("");
+  window.location.href = "/";
+};
 </script>
 
 <style scoped lang="scss">

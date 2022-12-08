@@ -3,7 +3,7 @@ const koa = require('koa')
 const { koaBody } = require('koa-body')
 const connect = require('./db')
 const registerRouter = require('./router')
-const { middleWare: JwtMiddleWare, cacheTokenError} = require("./token")
+const { middleWare: JwtMiddleWare, cacheTokenError, checkUser} = require("./token")
 const { diaryMiddleWare } = require("./diary")
 const cors = require('@koa/cors')
 
@@ -28,6 +28,9 @@ connect().then(() => {
   app.use(cacheTokenError)
   // koa-jwt 鉴权
   JwtMiddleWare(app)
+
+  // 检查用户 中间件
+  app.use(checkUser)
 
   // diary 中间件
   app.use(diaryMiddleWare)
